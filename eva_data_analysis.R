@@ -1,7 +1,7 @@
 # https://data.nasa.gov/resource/eva.json (with modifications)
-data_f_file = '/home/sarah/Projects/astronaut-analysis/data.json'
-data_t_file = '/home/sarah/Projects/astronaut-analysis/data.csv'
-g_file = 'myPlot.png'
+data_f_file = 'eva_data.json'
+data_t_file = 'eva_data.csv'
+g_file = 'cummulative_eva_graph.png'
 fieldnames <- c("EVA #", "Country", "Crew    ", "Vehicle", "Date", "Duration", "Purpose")
 
 library(jsonlite)
@@ -21,9 +21,10 @@ write.csv(data_t_file)
 
 
 time <- c()
+library(lubridate)
 date = Date()
 
-library(lubridate)
+
 j=1
 for (i in rownames(data)){
     print(data[j, ])
