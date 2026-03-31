@@ -11,8 +11,15 @@ library(lubridate)
 library(jsonlite)
 library(tidyverse) #needed to switch to something more common.
 
-j_l <- read_json(input_file)
-data=as.data.frame(j_l[[1]])
+
+# j_l <- read_json(input_file)
+# data=as.data.frame(j_l[[1]])
+
+#these two lines is more human readable than the previous two. 
+eva_tbl <- jsonlite::fromJSON(input_file) %>% 
+  as_tibble()
+
+
 
 for( i in 2:374){
   r = j_l[[i]]
@@ -67,7 +74,7 @@ date, time
 date <- df$date
 time <- df$time
 
-# 
+# this block is commented out so that we can use ggplot2
 # png(graph_file)
 # plot(date,duration_dt[2:length(duration_dt)],
 # xlab = 'Year', ylab= 'Total time spent in space to date (hours)'
@@ -78,7 +85,6 @@ time <- df$time
 # )
 
 cumulative_time <- duration_dt[2:length(duration_dt)]
-
 cumulative_spacetime_plot <- ggplot(df, aes(x = date, y = cumulative_time)) +  
   geom_point() +
   geom_line() +  
@@ -86,7 +92,6 @@ cumulative_spacetime_plot <- ggplot(df, aes(x = date, y = cumulative_time)) +
   theme_minimal()
 
 ggsave(graph_file, plot = cumulative_spacetime_plot, width = 9, height = 5, dpi = 300)
-
 print(cumulative_spacetime_plot)
 
 
