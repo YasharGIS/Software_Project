@@ -3,9 +3,13 @@ input_file = 'eva_data.json'
 output_file = 'eva_data.csv'
 graph_file = 'cummulative_eva_graph.png'
 
+#this comment; 
+# ctrl+shift+c is for commenting the block of code
+
 
 library(lubridate)
 library(jsonlite)
+library(tidyverse) #needed to switch to something more common.
 
 j_l <- read_json(input_file)
 data=as.data.frame(j_l[[1]])
@@ -63,12 +67,26 @@ date, time
 date <- df$date
 time <- df$time
 
+# 
+# png(graph_file)
+# plot(date,duration_dt[2:length(duration_dt)],
+# xlab = 'Year', ylab= 'Total time spent in space to date (hours)'
+# )
+# dev.off()
+# plot(date,duration_dt[2:length(duration_dt)],
+# xlab = 'Year', ylab= 'Total time spent in space to date (hours)'
+# )
 
-png(graph_file)
-plot(date,duration_dt[2:length(duration_dt)],
-xlab = 'Year', ylab= 'Total time spent in space to date (hours)'
-)
-dev.off()
-plot(date,duration_dt[2:length(duration_dt)],
-xlab = 'Year', ylab= 'Total time spent in space to date (hours)'
-)
+cumulative_time <- duration_dt[2:length(duration_dt)]
+
+cumulative_spacetime_plot <- ggplot(df, aes(x = date, y = cumulative_time)) +  
+  geom_point() +
+  geom_line() +  
+  labs(x = "Year", y = "Total time spent in space to date (hours)") +
+  theme_minimal()
+
+ggsave(graph_file, plot = cumulative_spacetime_plot, width = 9, height = 5, dpi = 300)
+
+print(cumulative_spacetime_plot)
+
+
