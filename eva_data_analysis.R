@@ -36,7 +36,7 @@ for (i in rownames(data)){
           #do nothing
         }else{
             duration_dt=as.POSIXlt(duration_str,format='%H:%M')
-            duration_hours <- as.numeric(as.difftime(hour(t), units = 'hours')+as.difftime(minute(duration_dt), units='mins')+as.difftime(second(t), units='secs'))/(60*60)
+            duration_hours <- as.numeric(as.difftime(hour(duration_dt), units = 'hours')+as.difftime(minute(duration_dt), units='mins')+as.difftime(second(duration_dt), units='secs'))/(60*60)
             print(duration_dt,duration_hours)
             time <- c(time, duration_hours)
             if(!is.na(data[j,]$date)){
@@ -51,9 +51,9 @@ for (i in rownames(data)){
     j = j+1
 }
 
-t=0
+duration_dt=0
 for(i in time)
-    t <- c(t, t[length(t)]+i)
+    duration_dt <- c(duration_dt, duration_dt[length(duration_dt)]+i)
 
 
 df <- data.frame(
@@ -65,10 +65,10 @@ time <- df$time
 
 
 png(graph_file)
-plot(date,t[2:length(t)],
+plot(date,duration_dt[2:length(duration_dt)],
 xlab = 'Year', ylab= 'Total time spent in space to date (hours)'
 )
 dev.off()
-plot(date,t[2:length(t)],
+plot(date,duration_dt[2:length(duration_dt)],
 xlab = 'Year', ylab= 'Total time spent in space to date (hours)'
 )
