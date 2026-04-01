@@ -9,12 +9,31 @@ output_file <- "./eva_data.csv"
 graph_file  <- "./cumulative_eva_graph.png"
 
 # 1) Read JSON array into a tibble
+#' Read EVA data from a JSON file into a tibble
+#' Reads a JSON file containing an array of records (objects) and returns the
+#' contents as a tibble for downstream analysis.
+#' @param input_file Path to a JSON file (character scalar). The file is expected
+#'   to contain a JSON array of objects, e.g. `[{"eva":"1", ...}, {"eva":"2", ...}]`. 
+#'
+#' @return A tibble with one row per JSON record and one column per field.
+#'
+#' @examples eva_tbl <- read_json_to_dataframe("./eva-data.json")
+#' dplyr::glimpse(eva_tbl)
 read_json_to_dataframe <- function(input_file) {
   jsonlite::fromJSON(input_file) %>% 
     tibble::as_tibble()
 }
 
 # 2) Convert types + Write into CSV
+#' Title
+#'
+#' @param df 
+#' @param output_file 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 write_dataframe_to_csv <- function(df, output_file) {
   df <- df %>% 
     dplyr::mutate(
@@ -28,6 +47,15 @@ write_dataframe_to_csv <- function(df, output_file) {
 }
 
 
+#' Title
+#'
+#' @param df 
+#' @param graph_file 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 plot_cumulative_time_in_space <- function(df, graph_file) {
   df <- df %>% 
     dplyr::arrange(date) %>% 
